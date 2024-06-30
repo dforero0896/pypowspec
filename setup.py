@@ -11,7 +11,7 @@ try:
 except: pass
 includes = [numpy.get_include(), '/usr/include', 'pypowspec/etc', 'pypowspec/io', 'pypowspec/lib', 'pypowspec/math', 'pypowspec/src']
 sources = glob.glob(f"pypowspec/io/*.c") + glob.glob(f"pypowspec/lib/*.c") + glob.glob(f"pypowspec/math/*.c") + glob.glob(f"pypowspec/src/*.c")
-pypowspec = Extension("pypowspec",
+pypowspec = Extension("pypowspec.pypowspec",
                   sources=['pypowspec/src/pypowspec.pyx'] + sources,
                   include_dirs=[f"{os.environ.get('FFTW_DIR')}/../include", f"{os.environ.get('FFTW_DIR')}/include"] + includes,
                   library_dirs=[f"{os.environ.get('FFTW_DIR')}", f"{os.environ.get('FFTW_DIR')}/lib"],
