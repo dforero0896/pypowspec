@@ -1,4 +1,5 @@
 all:
-	python setup.py build_ext --inplace
+	python setup.py develop --user
+	#python setup.py build_ext --inplace
 clean:
-	rm *.so src/pypowspec.c
+	rm *.so pypowspec/src/pypowspec.c

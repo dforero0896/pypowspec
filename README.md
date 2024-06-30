@@ -9,17 +9,15 @@ I have not done many tests but the ones performed show equivalent results to tho
 
 The current implementation still requires the configuration file to be provided. Though this may be changed in the future (either by bypassing the configuration file reader or creating configuration files on-the-fly) the current configuration file reader in this wrapper will not check for `DATA`/`RANDOM` catalogs or associated configuration options (such as formatting) since these are provided to the functions as numpy arrays.
 
-First, compilation of the wrappes should be as easy as the original code. Once the `include` and `lib` dirs have been set in the `setup.py` script, just type `make` and the library will be compiled for your python version.
+First, compilation of the wrappers should be as easy as the original code. Once the `include` and `lib` dirs have been set in the `setup.py` script, just type `make` and the library will be compiled for your python version. It will by default ainstall a development version of the library (it runs `python setup.py build --user`) but feel free to modify it if you don't plan on editing the library.
 
-Once the library is compiled, add the directory containing it to your `PATH`. Here is an example
+
 
 ### Auto power spectrum of simulation boxes
 ## From data catalogs
 ```python
 import numpy as np
-import sys
-sys.path.append("/global/u1/d/dforero/codes/powspec_py/powspec/")
-from pypowspec import compute_auto_box, compute_cross_box
+from pypowspec.pypowspec import compute_auto_box, compute_cross_box
 
 
 seed = 42
@@ -32,12 +30,10 @@ pk = compute_auto_box(data[:,0], data[:,1], data[:,2], w,
                       output_file = "test/box_auto_test.powspec")
 ```
 ## From a mesh
-Now the wrapper suppors computing power spectra from meshes, represented as numpy arrays that **MUST BE CONTIGUOUS IN MEMORY**. You should also make sure that your meshing algorithm (CIC, NGP, ...) metches the option you set up in the configuration file, otherwise the aliasing corrections will cause the power spectrum to be wrong. 
+Now the wrapper supports computing power spectra from meshes, represented as numpy arrays that **MUST BE CONTIGUOUS IN MEMORY**. You should also make sure that your meshing algorithm (CIC, NGP, ...) metches the option you set up in the configuration file, otherwise the aliasing corrections will cause the power spectrum to be wrong. The mesh should contain just the number counts field (in order to properly compute the normalization), **do not provide the overdensity field**.
 ```python
 import numpy as np
-import sys
-sys.path.append("/global/u1/d/dforero/codes/powspec_py/powspec/")
-from pypowspec import compute_auto_box_mesh
+from pypowspec.pypowspec import compute_auto_box_mesh
 
 
 seed = 42
@@ -65,9 +61,7 @@ Providing an `output_file` triggers saving of the results in text format (result
 ### Cross power spectrum of simulation boxes
 ```python
 import numpy as np
-import sys
-sys.path.append("/global/u1/d/dforero/codes/powspec_py/powspec/")
-from pypowspec import compute_auto_box, compute_cross_box
+from pypowspec.pypowspec import compute_auto_box, compute_cross_box
 
 
 seed = 42
@@ -93,9 +87,7 @@ Data selection is expected to be none by the user in python. This wrapper bypass
 
 ```python
 import numpy as np
-import sys
-sys.path.append("/global/u1/d/dforero/codes/powspec_py/powspec/")
-from pypowspec import compute_auto_lc, compute_cross_lc
+from pypowspec.pypowspec import compute_auto_lc, compute_cross_lc
 
 import pandas as pd
 dat_fname = "/global/project/projectdirs/desi/mocks/UNIT/HOD_Shadab/multiple_snapshot_lightcone/UNIT_lightcone_multibox_ELG_footprint_nz_NGC.dat"
@@ -127,9 +119,7 @@ Here we use the same catalog as an example.
 
 
 import numpy as np
-import sys
-sys.path.append("/global/u1/d/dforero/codes/powspec_py/powspec/")
-from pypowspec import compute_auto_lc, compute_cross_lc
+from pypowspec.pypowspec import compute_auto_lc, compute_cross_lc
 
 import pandas as pd
 dat_fname = "/global/project/projectdirs/desi/mocks/UNIT/HOD_Shadab/multiple_snapshot_lightcone/UNIT_lightcone_multibox_ELG_footprint_nz_NGC.dat"
@@ -160,9 +150,7 @@ pk = compute_cross_lc(data[:,0], data[:,1], data[:,2], wdata, fkp_data, data[:,3
 
 ```python
 import numpy as np
-import sys
-sys.path.append("/global/u1/d/dforero/codes/powspec_py/powspec/")
-from pypowspec import compute_auto_box_rand, compute_cross_box_rand
+from pypowspec.pypowspec import compute_auto_box_rand, compute_cross_box_rand
 import pandas as pd
 test_fname = "/global/project/projectdirs/desi/mocks/UNIT/HOD_Shadab/HOD_boxes/redshift0.9873/UNIT_DESI_Shadab_HOD_snap97_ELG_v0.txt"
 data = pd.read_csv(test_fname, usecols = (0,1,3), engine='c', delim_whitespace=True, names = ['x', 'y', 'zrsd']).values
@@ -180,9 +168,7 @@ pk = compute_auto_box_rand(data[:,0], data[:,1], data[:,2], wdata,
 
 ```python
 import numpy as np
-import sys
-sys.path.append("/global/u1/d/dforero/codes/powspec_py/powspec/")
-from pypowspec import compute_auto_box_rand, compute_cross_box_rand
+from pypowspec.pypowspec import compute_auto_box_rand, compute_cross_box_rand
 import pandas as pd
 test_fname = "/global/project/projectdirs/desi/mocks/UNIT/HOD_Shadab/HOD_boxes/redshift0.9873/UNIT_DESI_Shadab_HOD_snap97_ELG_v0.txt"
 data = pd.read_csv(test_fname, usecols = (0,1,3), engine='c', delim_whitespace=True, names = ['x', 'y', 'zrsd']).values

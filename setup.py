@@ -1,17 +1,18 @@
-from distutils.extension import Extension
-from distutils.core import setup
+#from distutils.extension import Extension
+#from distutils.core import setup
+from setuptools import setup, find_packages, Extension
 from Cython.Build import cythonize
 import numpy
 import glob, os
 
 from numpy.compat import py3k
 try:
-      os.remove("src/pypowspec.c")
+      os.remove("pypowspec/src/pypowspec.c")
 except: pass
-includes = [numpy.get_include(), '/usr/include', 'etc', 'io', 'lib', 'math', 'src']
-sources = glob.glob(f"io/*.c") + glob.glob(f"lib/*.c") + glob.glob(f"math/*.c") + glob.glob(f"src/*.c")
+includes = [numpy.get_include(), '/usr/include', 'pypowspec/etc', 'pypowspec/io', 'pypowspec/lib', 'pypowspec/math', 'pypowspec/src']
+sources = glob.glob(f"pypowspec/io/*.c") + glob.glob(f"pypowspec/lib/*.c") + glob.glob(f"pypowspec/math/*.c") + glob.glob(f"pypowspec/src/*.c")
 pypowspec = Extension("pypowspec",
-                  sources=['src/pypowspec.pyx'] + sources,
+                  sources=['pypowspec/src/pypowspec.pyx'] + sources,
                   include_dirs=[f"{os.environ.get('FFTW_DIR')}/../include", f"{os.environ.get('FFTW_DIR')}/include"] + includes,
                   library_dirs=[f"{os.environ.get('FFTW_DIR')}", f"{os.environ.get('FFTW_DIR')}/lib"],
                   language='c',
@@ -21,5 +22,5 @@ pypowspec = Extension("pypowspec",
 
 
 setup(name='pypowspec',
-      ext_modules=cythonize([pypowspec], gdb_debug=True),
+      ext_modules=cythonize([pypowspec]),
       packages=['pypowspec'])
