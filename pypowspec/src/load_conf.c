@@ -998,7 +998,7 @@ static int conf_verify(const cfg_t *cfg, CONF *conf) {
   if (!conf->issim) {
     if (conf->dcnvt) {
       for (i = 0; i < conf->ndata; i++) {
-        if (conf->dcnvt) {
+        if (conf->dcnvt[i]) {
           conf->cnvt = true;
           break;
         }
@@ -1006,7 +1006,7 @@ static int conf_verify(const cfg_t *cfg, CONF *conf) {
     }
     else conf->cnvt = DEFAULT_CONVERT;
     if (!conf->cnvt) {
-      if (conf->rcnvt) {
+      if (conf->rcnvt[i]) {
         for (i = 0; i < conf->ndata; i++) {
           if (conf->rcnvt) {
             conf->cnvt = true;

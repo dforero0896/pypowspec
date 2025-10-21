@@ -37,7 +37,7 @@ PK *compute_pk(CATA *cata, bool save_out, bool has_randoms, int argc, char *argv
   if (cata->rand != NULL){
     conf->has_randoms = has_randoms;
   }
- 
+  
   if (cnvt_coord(conf, cata)) {
     printf(FMT_FAIL);
     P_EXT("failed to convert coordinates\n");
